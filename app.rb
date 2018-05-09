@@ -1,7 +1,12 @@
 require 'sinatra/base'
 require './lib/link.rb'
+require 'uri'
+require 'sinatra/flash'
 
 class BookmarkManager < Sinatra::Base
+  enable :sessions
+  register Sinatra::Flash
+
   before do
     @bookmarks = Link.all
   end
@@ -15,8 +20,8 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/add_to_database' do
-    Link.add(params[:url_field])
-    redirect '/bookmarks'
+    url = params[:url_field]
+    Link.add(url) ? redirect('/bookmarks') : flash[:notice] = 'This is not a valid url.'
   end
 
   run! if app_file == $0

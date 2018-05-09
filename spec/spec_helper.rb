@@ -6,6 +6,7 @@ require 'capybara'
 require 'capybara/rspec'
 require 'pg'
 require 'rspec'
+require 'sinatra/flash'
 
 require_relative 'helpers'
 require_relative 'setup_test_database'

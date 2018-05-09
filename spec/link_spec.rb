@@ -15,9 +15,15 @@ describe Link do
 
   describe '#add' do
     let(:bbc_link) { 'http://bbc.co.uk' }
+    let(:invalid_url) { 'invalid url' }
     it 'should add a new bookmark' do
       Link.add(bbc_link)
       expect(all_links).to include(bbc_link)
     end
+    it "shouldn't add bookmark if url is invalid"do
+      Link.add(invalid_url)
+      expect(all_links).not_to include(all_links)
+    end
+
   end
 end
