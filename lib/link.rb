@@ -1,17 +1,25 @@
 require 'pg'
 
 class Link
-  if ENV['RACK_ENV'] == 'test'
-    database = 'bookmark_manager_test'
-  else
-    database = 'bookmark_manager'
+
+  attr_reader :url, :title
+
+  def initialize(url, title)
+    @url = url
+    @title = title
   end
 
-  @connection = PG.connect( dbname: database)
+
+    if ENV['RACK_ENV'] == 'test'
+      database = 'bookmark_manager_test'
+    else
+      database = 'bookmark_manager'
+    end
+    @connection = PG.connect( dbname: database)
 
   def self.all
     result = @connection.exec("SELECT * FROM bookmarks;")
-    result.map { |row| {title: row['title'], url: row['url']} }
+    result.map { |row| Link.new(row['url'], row['title']) }
   end
 
   def self.add(link, title)
@@ -24,5 +32,14 @@ class Link
   def self.is_url?(url)
     url =~ /\A#{URI::regexp(['http', 'https'])}\z/
   end
+
+  # def self.rack_up
+  #   if ENV['RACK_ENV'] == 'test'
+  #     database = 'bookmark_manager_test'
+  #   else
+  #     database = 'bookmark_manager'
+  #   end
+  #   @connection = PG.connect( dbname: database)
+  # end
 
 end
