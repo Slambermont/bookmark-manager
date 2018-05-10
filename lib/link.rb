@@ -19,6 +19,10 @@ class Link
     rack_up.exec("INSERT INTO bookmarks(url, title) VALUES('#{link}', '#{title}')")
   end
 
+  def self.delete(url)
+    rack_up.exec("DELETE FROM bookmarks WHERE url = '#{url}'")
+  end
+
   private
 
   def self.is_url?(url)

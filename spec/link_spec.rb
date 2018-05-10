@@ -12,13 +12,18 @@ describe Link do
 
   describe '#add' do
     it 'should add a new bookmark' do
-      Link.add('http://bbc.co.uk', 'bbc')
-      expect(all_links).to all(be_instance_of(Link))
+      expect{ Link.add('http://bbc.co.uk', 'bbc') }.to change{ Link.all.length }.by(1)
     end
-    it "shouldn't add bookmark if url is invalid"do
-      Link.add('invalid url', 'bbc')
-      expect(all_links).to eq []
+    it "shouldn't add bookmark if url is invalid" do
+      expect{ Link.add('invalid url', 'bbc') }.to change{ Link.all.length }.by(0)
     end
+  end
 
+  describe '#delete' do
+    it 'should delete the specified bookmark' do
+      add_bookmarks
+      expect {Link.delete('http://google.com')}.to change{Link.all.length}.by(-1)
+
+    end
   end
 end
