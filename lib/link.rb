@@ -11,12 +11,12 @@ class Link
 
   def self.all
     result = @connection.exec("SELECT * FROM bookmarks;")
-    result.map { |row| row['url'] }
+    result.map { |row| row['title'] }
   end
 
-  def self.add(link)
+  def self.add(link, title)
     return false unless is_url?(link)
-    @connection.exec("INSERT INTO bookmarks VALUES(DEFAULT, '#{link}')")
+    @connection.exec("INSERT INTO bookmarks(url, title) VALUES('#{link}', '#{title}')")
   end
 
   private
@@ -24,4 +24,5 @@ class Link
   def self.is_url?(url)
     url =~ /\A#{URI::regexp(['http', 'https'])}\z/
   end
+
 end

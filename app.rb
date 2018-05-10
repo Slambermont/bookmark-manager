@@ -21,7 +21,8 @@ class BookmarkManager < Sinatra::Base
 
   post '/add_bookmark' do
     url = params[:url_field]
-    Link.add(url) ? redirect('/bookmarks') : (flash[:error] = 'This is not a valid url.'; redirect('/add_bookmark'))
+    title = params[:title_field]
+    Link.add(url, title) ? redirect('/bookmarks') : (flash[:error] = 'This is not a valid url.'; redirect('/add_bookmark'))
   end
 
   run! if app_file == $0
