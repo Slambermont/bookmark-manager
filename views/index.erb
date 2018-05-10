@@ -4,6 +4,6 @@
 
 <ul>
   <% @bookmarks.each do |bookmark| %>
-    <p><a href=<%= bookmark[:url] %> ><%=bookmark[:title]%></a></p>
+    <li><a href=<%= bookmark[:url] %> ><%=bookmark[:title]%></a></li>
 <% end %>
 </ul>

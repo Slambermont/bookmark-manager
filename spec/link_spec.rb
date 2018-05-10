@@ -6,7 +6,11 @@ describe Link do
   describe '#all' do
     it 'should return all bookmarks' do
       add_bookmarks
-      expected_bookmarks = ['Makers', 'Google', 'Destroy']
+      expected_bookmarks = [
+        { title: 'Makers', url: 'http://makersacademy.com' },
+        { title: 'Google', url: 'http://google.com' },
+        { title: 'Destroy', url: 'http://destroyallsoftware.com' }
+      ]
       expect(all_links).to eq expected_bookmarks
     end
   end
@@ -16,7 +20,7 @@ describe Link do
     let(:invalid_url) { 'invalid url' }
     it 'should add a new bookmark' do
       Link.add(bbc_link, 'bbc')
-      expect(all_links).to include('bbc')
+      expect(all_links).to include(title: 'bbc', url: 'http://bbc.co.uk')
     end
     it "shouldn't add bookmark if url is invalid"do
       Link.add(invalid_url, 'bbc')
