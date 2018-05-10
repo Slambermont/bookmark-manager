@@ -10,9 +10,8 @@ class Link
   @connection = PG.connect( dbname: database)
 
   def self.all
-    list = []
-    @connection.exec("SELECT * FROM bookmarks;").each { |link| list << link['url'] }
-    list
+    result = @connection.exec("SELECT * FROM bookmarks;")
+    result.map { |row| row['url'] }
   end
 
   def self.add(link)

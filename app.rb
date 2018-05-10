@@ -8,7 +8,7 @@ class BookmarkManager < Sinatra::Base
   register Sinatra::Flash
 
   before do
-    @bookmarks = Link.all
+    @bookmarks = Link.all.join("<br>")
   end
 
   get '/bookmarks' do
@@ -19,9 +19,9 @@ class BookmarkManager < Sinatra::Base
     erb :add_bookmark
   end
 
-  post '/add_to_database' do
+  post '/add_bookmark' do
     url = params[:url_field]
-    Link.add(url) ? redirect('/bookmarks') : flash[:notice] = 'This is not a valid url.'
+    Link.add(url) ? redirect('/bookmarks') : (flash[:error] = 'This is not a valid url.'; redirect('/add_bookmark'))
   end
 
   run! if app_file == $0
