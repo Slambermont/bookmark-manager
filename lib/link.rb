@@ -11,7 +11,7 @@ class Link
 
   def self.all
     result = @connection.exec("SELECT * FROM bookmarks;")
-    result.map { |row| row['title'] }
+    result.map { |row| {title: row['title'], url: row['url']} }
   end
 
   def self.add(link, title)

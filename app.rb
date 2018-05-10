@@ -8,7 +8,7 @@ class BookmarkManager < Sinatra::Base
   register Sinatra::Flash
 
   before do
-    @bookmarks = Link.all.join("<br>")
+    @bookmarks = Link.all
   end
 
   get '/bookmarks' do

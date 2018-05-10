@@ -3,5 +3,7 @@
 </p>
 
 <ul>
-  <%= @bookmarks %>
+  <% @bookmarks.each do |bookmark| %>
+    <p><a href=<%= bookmark[:url] %> ><%=bookmark[:title]%></a></p>
+<% end %>
 </ul>
