@@ -22,7 +22,7 @@ describe Link do
   describe '#delete' do
     it 'should delete the specified bookmark' do
       add_bookmarks
-      expect {Link.delete('http://google.com')}.to change{Link.all.length}.by(-1)
+      expect { Link.delete('http://google.com') }.to change{ Link.all.length }.by(-1)
 
     end
   end
