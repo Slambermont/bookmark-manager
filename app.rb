@@ -31,8 +31,7 @@ class BookmarkManager < Sinatra::Base
 
   post '/delete_bookmark' do
     url = params[:url_field]
-    Link.delete(url)
-    redirect('/bookmarks')
+    Link.delete(url).cmd_tuples == 0 ? (flash[:no_url] = 'bookmark does no exist' ; redirect('/delete_bookmark')) : redirect('/bookmarks')
   end
 
   run! if app_file == $0
