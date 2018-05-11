@@ -24,7 +24,19 @@ class Database
     rack_up.exec("DELETE FROM bookmarks WHERE url = '#{url}'")
   end
 
+  def self.update(old_url, new_url, new_title)
+    return false unless is_in_all?(old_url) == true
+    return false unless is_url?(new_url)
+    rack_up.exec("UPDATE bookmarks SET title = '#{new_title}', url =  '#{new_url}' WHERE url = '#{old_url}'")
+  end
+
   private
+
+  def self.is_in_all?(url)
+    all.each do |instance|
+      return true if instance.url == url
+    end
+  end
 
   def self.is_url?(url)
     url =~ /\A#{URI::regexp(['http', 'https'])}\z/

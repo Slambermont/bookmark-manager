@@ -38,5 +38,13 @@ class BookmarkManager < Sinatra::Base
     erb :update_bookmark
   end
 
+  post '/update_bookmark' do
+    old_url = params['old_url_field']
+    new_url = params['new_url_field']
+    new_title = params['new_title_field']
+    Database.update(old_url, new_url, new_title) ? redirect('/bookmarks') : (flash[:new_error] = 'Entries invalid' ; redirect('update_bookmark'))
+
+  end
+
   run! if app_file == $0
 end

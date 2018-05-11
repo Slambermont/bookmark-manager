@@ -26,4 +26,14 @@ describe Database do
 
     end
   end
+
+  describe '#update' do
+    it 'changes the bookmark' do
+      Database.add('http://bbc.co.uk', 'bbc')
+      Database.all
+      Database.update('http://bbc.co.uk', 'http://google.com', 'Google')
+      expect(Database.all[0].url).to eq 'http://google.com'
+      expect(Database.all[0].title).to eq 'Google'
+    end
+  end
 end

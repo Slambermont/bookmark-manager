@@ -10,4 +10,27 @@ feature 'update bookmark' do
     expect(page).to have_content('Scooby Doo')
     expect(page).not_to have_content('Google')
   end
+
+  scenario 'test if bookmark is available to update' do
+    add_bookmarks
+    visit '/bookmarks'
+    click_on('Update bookmark')
+    fill_in 'old_url_field', with: 'http://googe.com'
+    fill_in 'new_url_field', with: 'http://scoobydoo.com'
+    fill_in 'new_title_field', with: 'Scooby Doo'
+    click_button 'Submit'
+    expect(page).to have_content('Entries invalid')
+  end
+
+  scenario 'test if bookmark is available to update' do
+    add_bookmarks
+    visit '/bookmarks'
+    click_on('Update bookmark')
+    fill_in 'old_url_field', with: 'http://google.com'
+    fill_in 'new_url_field', with: 'scoobydoo.com'
+    fill_in 'new_title_field', with: 'Scooby Doo'
+    click_button 'Submit'
+    expect(page).to have_content('Entries invalid')
+  end
+
 end
