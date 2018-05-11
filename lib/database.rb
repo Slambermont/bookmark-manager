@@ -3,9 +3,9 @@ require_relative 'bookmark'
 
 class Database
 
-  def self.all(connection = rack_up)
+  def self.all(bookmark_class = Bookmark, connection = rack_up)
     result = connection.exec("SELECT * FROM bookmarks;")
-    result.map { |row| Bookmark.new(row['url'], row['title']) }
+    result.map { |row| bookmark_class.new(row['url'], row['title']) }
   end
 
   def self.add(link, title, connection = rack_up)

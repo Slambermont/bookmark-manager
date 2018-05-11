@@ -1,11 +1,13 @@
 require 'database'
 
 describe Database do
-  let(:connection) { double :connection, exec: nil }
+  let(:connection) { double :connection, exec: result }
   let(:google_title) { 'Google' }
   let(:google_url) { 'http://google.com' }
   let(:bad_url) { 'THIS IS WRONG' }
   let(:bbc_url) { 'http://bbc.co.uk' }
+  let(:bookmark) { double :bookmark, new: nil }
+  let(:result) {[{'url' => 'http://google.com', 'title' => 'Google' }]}
 
 
   describe '#add' do
@@ -43,7 +45,14 @@ describe Database do
     end
   end
 
-  
+  describe '#all' do
+    it 'returns an instance of bookmark class with arguments' do
+      expect(bookmark).to receive(:new).with(google_url, google_title)
+      Database.all(bookmark, connection)
+    end
+  end
+
+
 end
 
 # describe Database do
