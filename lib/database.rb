@@ -3,31 +3,24 @@ require_relative 'bookmark'
 
 class Database
 
-  # attr_reader :url, :title
-  #
-  # def initialize(url, title)
-  #   @url = url
-  #   @title = title
-  # end
-
-  def self.all
-    result = rack_up.exec("SELECT * FROM bookmarks;")
+  def self.all(connection = rack_up)
+    result = connection.exec("SELECT * FROM bookmarks;")
     result.map { |row| Bookmark.new(row['url'], row['title']) }
   end
 
-  def self.add(link, title)
+  def self.add(link, title, connection = rack_up)
     return false unless is_url?(link)
-    rack_up.exec("INSERT INTO bookmarks(url, title) VALUES('#{link}', '#{title}')")
+    connection.exec("INSERT INTO bookmarks(url, title) VALUES('#{link}', '#{title}')")
   end
 
-  def self.delete(url)
-    rack_up.exec("DELETE FROM bookmarks WHERE url = '#{url}'")
+  def self.delete(url, connection = rack_up)
+    connection.exec("DELETE FROM bookmarks WHERE url = '#{url}'")
   end
 
-  def self.update(old_url, new_url, new_title)
+  def self.update(old_url, new_url, new_title, connection = rack_up)
     return false unless is_in_all?(old_url) == true
     return false unless is_url?(new_url)
-    rack_up.exec("UPDATE bookmarks SET title = '#{new_title}', url =  '#{new_url}' WHERE url = '#{old_url}'")
+    connection.exec("UPDATE bookmarks SET title = '#{new_title}', url = '#{new_url}' WHERE url = '#{old_url}'")
   end
 
   private
