@@ -1,17 +1,18 @@
 require 'pg'
+require_relative 'bookmark'
 
-class Link
+class Database
 
-  attr_reader :url, :title
-
-  def initialize(url, title)
-    @url = url
-    @title = title
-  end
+  # attr_reader :url, :title
+  #
+  # def initialize(url, title)
+  #   @url = url
+  #   @title = title
+  # end
 
   def self.all
     result = rack_up.exec("SELECT * FROM bookmarks;")
-    result.map { |row| Link.new(row['url'], row['title']) }
+    result.map { |row| Bookmark.new(row['url'], row['title']) }
   end
 
   def self.add(link, title)

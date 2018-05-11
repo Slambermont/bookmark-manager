@@ -1,5 +1,5 @@
 require 'sinatra/base'
-require './lib/link.rb'
+require './lib/database.rb'
 require 'uri'
 require 'sinatra/flash'
 
@@ -8,7 +8,7 @@ class BookmarkManager < Sinatra::Base
   register Sinatra::Flash
 
   before do
-    @bookmarks = Link.all
+    @bookmarks = Database.all
   end
 
   get '/bookmarks' do
@@ -22,7 +22,7 @@ class BookmarkManager < Sinatra::Base
   post '/add_bookmark' do
     url = params[:url_field]
     title = params[:title_field]
-    Link.add(url, title) ? redirect('/bookmarks') : (flash[:error] = 'This is not a valid url.'; redirect('/add_bookmark'))
+    Database.add(url, title) ? redirect('/bookmarks') : (flash[:error] = 'This is not a valid url.'; redirect('/add_bookmark'))
   end
 
   get '/delete_bookmark' do
@@ -31,7 +31,7 @@ class BookmarkManager < Sinatra::Base
 
   post '/delete_bookmark' do
     url = params[:url_field]
-    Link.delete(url).cmd_tuples == 0 ? (flash[:no_url] = 'bookmark does no exist' ; redirect('/delete_bookmark')) : redirect('/bookmarks')
+    Database.delete(url).cmd_tuples == 0 ? (flash[:no_url] = 'bookmark does no exist' ; redirect('/delete_bookmark')) : redirect('/bookmarks')
   end
 
   run! if app_file == $0
